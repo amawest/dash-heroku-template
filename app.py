@@ -8,6 +8,11 @@ import dash
 from jupyter_dash import JupyterDash
 import dash_core_components as dcc
 import dash_html_components as html
+
+from dash import Dash
+import dash_core_components as dcc
+import dash_html_components as html
+
 from dash.dependencies import Input, Output
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -117,6 +122,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
+app = Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
 app = JupyterDash(__name__, external_stylesheets=external_stylesheets)
 app.layout = html.Div(  [
         html.H1("Understanding the Gender Wage Gap"),
