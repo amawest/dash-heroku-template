@@ -59,8 +59,6 @@ and other factors. Data is collected by UChicago and funded by the NSF, and can 
 ### Generate table
 table = gss_clean.groupby('sex').agg({'income': 'mean', 'job_prestige':'mean', 'socioeconomic_index':'mean', 'education':'mean'}).round(2)
 fig = ff.create_table(table)
-fig.layout.width = 800
-fig.layout.height = 300
 
 
 ### Barplot
@@ -79,21 +77,15 @@ fig_2 = px.scatter(gss_clean, x='job_prestige', y='income',
                  labels={'income':'annual income', 
                         'job_prestige':'occupational prestige score'},
                  hover_data=['education', 'socioeconomic_index'])
-fig_2.layout.width = 700
-fig_2.layout.height = 650
 
 ### Boxplots for income and job prestige side-by-side
 fig_3 = px.box(gss_clean, x='sex', y = 'income', color = 'sex',
                    labels={'income':'personal annual income', 'sex':''})
 fig_3.update_layout(showlegend=False)
-fig_3.layout.width = 550
-fig_3.layout.height = 500
 
 fig_4 = px.box(gss_clean, x='sex', y = 'job_prestige', color = 'sex',
                    labels={'job_prestige':'occupational prestige score', 'sex':''})
 fig_4.update_layout(showlegend=False)
-fig_4.layout.width = 550
-fig_4.layout.height = 500
 
 
 ### Boxplots
@@ -107,8 +99,6 @@ fig_5 = px.box(gss_plot, x='sex', y = 'income', color = 'sex',
              labels={'prestige_cat':'occupational prestige Level', 'income':'annual income', 'sex':''},
              color_discrete_map = {'male':'blue', 'female':'red'})
 fig_5.update_layout(showlegend=True)
-fig_5.layout.width = 800
-fig_5.layout.height = 900
 
 gss_clean['education_level'] = pd.cut(gss_clean['education'], bins=[-0.01, 6, 8, 12, 16, 20], 
                                       labels=('Elementary', 'Middle School', 'High School', 'College', 'Graduate'))
@@ -186,8 +176,7 @@ def make_figure(x,y):
         y='count',
         color=y,
         text='count',
-        barmode='group',
-        height=600
+        barmode='group'
 )
 
 
