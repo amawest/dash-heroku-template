@@ -7,7 +7,7 @@ from dash import Dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css']
 
 
 ### Data preparation 
@@ -172,8 +172,8 @@ app.layout = html.Div(
             dcc.Graph(id="graph")
         ], style={'width': '70%', 'float': 'left'}),
         
-    ]
-)
+    ], style = {'width':'75%', 'text-align':'center', 'padding-left': '150px'})
+
 @app.callback(Output(component_id="graph",component_property="figure"), 
                   [Input(component_id='values',component_property="value"),
                    Input(component_id='groups',component_property="value")])
