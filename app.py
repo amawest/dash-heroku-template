@@ -86,7 +86,7 @@ fig_3 = px.box(gss_clean, x='sex', y = 'income', color = 'sex',
 fig_3.update_layout(showlegend=False)
 
 fig_4 = px.box(gss_clean, x='sex', y = 'job_prestige', color = 'sex',
-               color_discrete_sequence=["blue", "#cf72ca"],
+               color_discrete_map = {'male':'blue', 'female':'#cf72ca'})
                labels={'job_prestige':'occupational prestige score', 'sex':''})
 fig_4.update_layout(showlegend=False)
 
@@ -99,9 +99,8 @@ gss_plot = gss_plot.dropna()
 
 fig_5 = px.box(gss_plot, x='sex', y = 'income', color = 'sex', 
              facet_col='prestige_cat', facet_col_wrap = 2,
-             color_discrete_sequence=["#cf72ca", "blue"],
              labels={'prestige_cat':'occupational prestige Level', 'income':'annual income', 'sex':''},
-             color_discrete_map = {'male':'blue', 'female':'red'})
+             color_discrete_map = {'male':'blue', 'female':'#cf72ca'})
 fig_5.update_layout(showlegend=True)
 
 gss_clean['education_level'] = pd.cut(gss_clean['education'], bins=[-0.01, 6, 8, 12, 16, 20], 
@@ -122,7 +121,7 @@ app.layout = html.Div(
         
         html.H4("Comparing Mean Income, Occupational Prestige, Socioeconomic Status and Education Level By Gender", ),
         
-        dcc.Graph(figure=fig),
+        dcc.Graph(figure=fig_1),
     
         html.H4("Comparing the Relationship Between Annual Income and Occupational Prestige By Gender"),
         
