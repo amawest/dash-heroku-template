@@ -65,6 +65,7 @@ fig = ff.create_table(table)
 gss_bar = gss_clean.groupby(['sex', 'male_breadwinner']).size().reset_index().rename({0:'count'}, axis=1)
 fig_1 = px.bar(gss_bar, x='male_breadwinner', y='count', color='sex',
             labels={'male_breadwinner': 'agree/disagree: male is the bread winner', 'count':'number of responses'},
+            color_discrete_sequence=["#cf72ca", "blue"],
             text='count',
             barmode='group')
 fig_1.update_layout(showlegend=True)
@@ -72,6 +73,7 @@ fig_1.update_layout(showlegend=True)
 ### Scatterplot
 fig_2 = px.scatter(gss_clean, x='job_prestige', y='income',
                  color = 'sex',
+                 color_discrete_sequence=["#cf72ca", "blue"],
                  trendline='ols',
                  labels={'income':'annual income', 
                         'job_prestige':'occupational prestige score'},
@@ -79,11 +81,13 @@ fig_2 = px.scatter(gss_clean, x='job_prestige', y='income',
 
 ### Boxplots for income and job prestige side-by-side
 fig_3 = px.box(gss_clean, x='sex', y = 'income', color = 'sex',
-                   labels={'income':'personal annual income', 'sex':''})
+               color_discrete_sequence=["#cf72ca", "blue"],
+               labels={'income':'personal annual income', 'sex':''})
 fig_3.update_layout(showlegend=False)
 
 fig_4 = px.box(gss_clean, x='sex', y = 'job_prestige', color = 'sex',
-                   labels={'job_prestige':'occupational prestige score', 'sex':''})
+               color_discrete_sequence=["#cf72ca", "blue"],
+               labels={'job_prestige':'occupational prestige score', 'sex':''})
 fig_4.update_layout(showlegend=False)
 
 
@@ -95,6 +99,7 @@ gss_plot = gss_plot.dropna()
 
 fig_5 = px.box(gss_plot, x='sex', y = 'income', color = 'sex', 
              facet_col='prestige_cat', facet_col_wrap = 2,
+             color_discrete_sequence=["#cf72ca", "blue"],
              labels={'prestige_cat':'occupational prestige Level', 'income':'annual income', 'sex':''},
              color_discrete_map = {'male':'blue', 'female':'red'})
 fig_5.update_layout(showlegend=True)
@@ -161,7 +166,7 @@ app.layout = html.Div(
             dcc.Graph(id="graph")
         ], style={'width': '70%', 'float': 'left'}),
         
-    ], style = {'width':'75%', 'text-align':'center', 'padding-left': '150px', 'color':'darkblue', 'backgroundColor':'lightblue'})
+    ], style = {'font-family':'Arial', 'width':'75%', 'text-align':'center', 'padding-left': '150px', 'color':'#2f3136'})
 
 @app.callback(Output(component_id="graph",component_property="figure"), 
                   [Input(component_id='values',component_property="value"),
