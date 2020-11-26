@@ -169,7 +169,7 @@ app.layout = html.Div(
         
         dcc.Graph(figure=fig_5),
         
-        html.H4("Interactive Barplots"),
+        html.H4("Interactive Barplot"),
         
         html.Div([
             html.H3("y-axis features"),
