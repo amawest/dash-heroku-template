@@ -86,7 +86,7 @@ fig_3 = px.box(gss_clean, x='sex', y = 'income', color = 'sex',
 fig_3.update_layout(showlegend=False)
 
 fig_4 = px.box(gss_clean, x='sex', y = 'job_prestige', color = 'sex',
-               color_discrete_map = {'male':'blue', 'female':'#cf72ca'}),
+               color_discrete_sequence=["blue", "#cf72ca"],
                labels={'job_prestige':'occupational prestige score', 'sex':''})
 fig_4.update_layout(showlegend=False)
 
@@ -100,7 +100,7 @@ gss_plot = gss_plot.dropna()
 fig_5 = px.box(gss_plot, x='sex', y = 'income', color = 'sex', 
              facet_col='prestige_cat', facet_col_wrap = 2,
              labels={'prestige_cat':'occupational prestige Level', 'income':'annual income', 'sex':''},
-             color_discrete_map = {'male':'blue', 'female':'#cf72ca'})
+             color_discrete_sequence=["blue", "#cf72ca"])
 fig_5.update_layout(showlegend=True)
 
 gss_clean['education_level'] = pd.cut(gss_clean['education'], bins=[-0.01, 6, 8, 12, 16, 20], 
