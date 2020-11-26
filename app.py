@@ -100,7 +100,7 @@ gss_plot = gss_plot.dropna()
 fig_5 = px.box(gss_plot, x='sex', y = 'income', color = 'sex', 
              facet_col='prestige_cat', facet_col_wrap = 2,
              labels={'prestige_cat':'occupational prestige Level', 'income':'annual income', 'sex':''},
-             color_discrete_sequence=["#cf72ca", "blue])
+             color_discrete_sequence=["#cf72ca", "blue"])
 fig_5.update_layout(showlegend=True)
 
 gss_clean['education_level'] = pd.cut(gss_clean['education'], bins=[-0.01, 6, 8, 12, 16, 20], 
