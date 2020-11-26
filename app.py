@@ -73,7 +73,7 @@ fig_1.update_layout(showlegend=True)
 ### Scatterplot
 fig_2 = px.scatter(gss_clean, x='job_prestige', y='income',
                  color = 'sex',
-                 color_discrete_sequence=["#cf72ca", "blue"],
+                 color_discrete_sequence=["blue", "#cf72ca"],
                  trendline='ols',
                  labels={'income':'annual income', 
                         'job_prestige':'occupational prestige score'},
@@ -81,12 +81,12 @@ fig_2 = px.scatter(gss_clean, x='job_prestige', y='income',
 
 ### Boxplots for income and job prestige side-by-side
 fig_3 = px.box(gss_clean, x='sex', y = 'income', color = 'sex',
-               color_discrete_sequence=["#cf72ca", "blue"],
+               color_discrete_sequence=["blue", "#cf72ca"],
                labels={'income':'personal annual income', 'sex':''})
 fig_3.update_layout(showlegend=False)
 
 fig_4 = px.box(gss_clean, x='sex', y = 'job_prestige', color = 'sex',
-               color_discrete_sequence=["#cf72ca", "blue"],
+               color_discrete_sequence=["blue", "#cf72ca"],
                labels={'job_prestige':'occupational prestige score', 'sex':''})
 fig_4.update_layout(showlegend=False)
 
