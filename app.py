@@ -2,29 +2,34 @@
 # Import Libraries
 # ==================================================================================================================
 
+### General Libraries
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.figure_factory as ff
 
+### Dash Libraries
 from dash import Dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
+
+### Style Sheet
 external_stylesheets = ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css']
 
 # ==================================================================================================================
 # Data Cleaning
 # ==================================================================================================================
  
+### Data
 gss = pd.read_csv("https://github.com/jkropko/DS-6001/raw/master/localdata/gss2018.csv",
                  encoding='cp1252', na_values=['IAP','IAP,DK,NA,uncodeable', 'NOT SURE',
                                                'DK', 'IAP, DK, NA, uncodeable', '.a', "CAN'T CHOOSE"])
 
+### Rename Columns
 mycols = ['id', 'wtss', 'sex', 'educ', 'region', 'age', 'coninc',
           'prestg10', 'mapres10', 'papres10', 'sei10', 'satjob',
           'fechld', 'fefam', 'fepol', 'fepresch', 'meovrwrk'] 
-
 gss_clean = gss[mycols]
 gss_clean = gss_clean.rename({'wtss':'weight', 
                               'educ':'education', 
@@ -116,7 +121,7 @@ fig_5 = px.box(gss_plot, x='sex', y = 'income', color = 'sex',
              color_discrete_sequence=["#cf72ca", "blue"])
 fig_5.update_layout(showlegend=True)
 
-# Interactive Portion
+### Interactive Portion
 gss_clean['education_level'] = pd.cut(gss_clean['education'], bins=[-0.01, 6, 8, 12, 16, 20], 
                                       labels=('Elementary', 'Middle School', 'High School', 'College', 'Graduate'))
 value_columns = ['satjob', 'relationship', 'male_breadwinner', 'men_bettersuited', 'child_suffer', 'men_overwork'] 
@@ -201,10 +206,11 @@ def make_figure(x,y):
 )
 
 
+### Run
 if __name__ == '__main__':
     app.run_server(debug=True)
     
 # ==================================================================================================================
-# Finis
+# ▢
 # ==================================================================================================================
 
