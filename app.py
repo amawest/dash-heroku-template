@@ -86,7 +86,7 @@ fig_3 = px.box(gss_clean, x='sex', y = 'income', color = 'sex',
 fig_3.update_layout(showlegend=False)
 
 fig_4 = px.box(gss_clean, x='sex', y = 'job_prestige', color = 'sex',
-               color_discrete_map = {'male':'blue', 'female':'#cf72ca'})
+               color_discrete_map = {'male':'blue', 'female':'#cf72ca'}),
                labels={'job_prestige':'occupational prestige score', 'sex':''})
 fig_4.update_layout(showlegend=False)
 
