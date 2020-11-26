@@ -80,7 +80,7 @@ fig = ff.create_table(table)
 ### Figure 1
 gss_bar = gss_clean.groupby(['sex', 'male_breadwinner']).size().reset_index().rename({0:'count'}, axis=1)
 fig_1 = px.bar(gss_bar, x='male_breadwinner', y='count', color='sex',
-            labels={'male_breadwinner': 'agree/disagree: male is the bread winner', 'count':'number of responses'},
+            labels={'male_breadwinner': 'Yay or Nay: Men Should be the Sole Bread Winners', 'count':'Number of Responses'},
             color_discrete_sequence=["#cf72ca", "blue"],
             text='count',
             barmode='group')
@@ -145,13 +145,13 @@ app.layout = html.Div(
         
         dcc.Graph(figure=fig_1),
     
-        html.H4("Comparing the Relationship Between Annual Income and Prestige of Occupation By Gender"),
+        html.H4("Comparing Relationship Between Avg. Income and Job Prestige by Gender"),
         
         dcc.Graph(figure=fig_2),
         
         html.Div([
             
-            html.H4("Boxplot For Annual Income By Gender"),
+            html.H4("Average Income By Gender"),
             
             dcc.Graph(figure=fig_3)
             
@@ -159,17 +159,17 @@ app.layout = html.Div(
         
         html.Div([
             
-            html.H4("Boxplot For Occupational Prestige By Gender"),
+            html.H4("Job Prestige By Gender"),
             
             dcc.Graph(figure=fig_4)
             
         ], style = {'width':'50%', 'float':'right'}),
         
-        html.H4("Boxplot For Annual Income By Gender and Occupational Prestige Level"),
+        html.H4("Average Income By Gender and Job Prestige Level"),
         
         dcc.Graph(figure=fig_5),
         
-        html.H4("Barplots with Dropdown Menu"),
+        html.H4("Interactive Barplots"),
         
         html.Div([
             html.H3("y-axis features"),
