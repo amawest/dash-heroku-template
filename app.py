@@ -73,7 +73,6 @@ fig_1.update_layout(showlegend=True)
 fig_2 = px.scatter(gss_clean, x='job_prestige', y='income',
                  color = 'sex',
                  trendline='ols',
-                 height=600, width=600,
                  labels={'income':'annual income', 
                         'job_prestige':'occupational prestige score'},
                  hover_data=['education', 'socioeconomic_index'])
