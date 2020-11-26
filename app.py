@@ -100,7 +100,7 @@ gss_plot = gss_plot.dropna()
 fig_5 = px.box(gss_plot, x='sex', y = 'income', color = 'sex', 
              facet_col='prestige_cat', facet_col_wrap = 2,
              labels={'prestige_cat':'occupational prestige Level', 'income':'annual income', 'sex':''},
-             color_discrete_sequence=["blue", "#cf72ca"])
+             color_discrete_sequence=["#cf72ca", "blue])
 fig_5.update_layout(showlegend=True)
 
 gss_clean['education_level'] = pd.cut(gss_clean['education'], bins=[-0.01, 6, 8, 12, 16, 20], 
@@ -115,15 +115,15 @@ server = app.server
 
 app.layout = html.Div(
     [
-        html.H1("Exploring the Gender Wage Gap with GSS", style={'textAlign': 'center'}),
+        html.H1("Understanding the Gender Wage Gap", style={'textAlign': 'center'}),
         
         dcc.Markdown(children = markdown_text),
         
-        html.H4("Comparing Mean Income, Occupational Prestige, Socioeconomic Status and Education Level By Gender", ),
+        html.H4("Average Income, Prestige of Occupation, Socioeconomic Status and Education Achieved By Gender", ),
         
         dcc.Graph(figure=fig_1),
     
-        html.H4("Comparing the Relationship Between Annual Income and Occupational Prestige By Gender"),
+        html.H4("Comparing the Relationship Between Annual Income and Prestige of Occupation By Gender"),
         
         dcc.Graph(figure=fig_2),
         
@@ -178,6 +178,7 @@ def make_figure(x,y):
         x=x,
         y='count',
         color=y,
+        color_discrete_sequence=["#cf72ca", "blue"],
         text='count',
         barmode='group'
 )
