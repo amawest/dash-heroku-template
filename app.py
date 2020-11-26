@@ -129,7 +129,7 @@ app.layout = html.Div(
             
             dcc.Graph(figure=fig_3)
             
-        ], style = {'backgroundColor':'#111111', 'color':'#7FDBFF', 'width':'50%', 'float':'left'}),
+        ], style = {'width':'50%', 'float':'left'}),
         
         html.Div([
             
@@ -137,7 +137,7 @@ app.layout = html.Div(
             
             dcc.Graph(figure=fig_4)
             
-        ], style = {'backgroundColor':'#111111', 'color':'#7FDBFF', 'width':'50%', 'float':'right'}),
+        ], style = {'width':'50%', 'float':'right'}),
         
         html.H4("Boxplot For Annual Income By Gender and Occupational Prestige Level"),
         
@@ -161,7 +161,7 @@ app.layout = html.Div(
             dcc.Graph(id="graph")
         ], style={'width': '70%', 'float': 'left'}),
         
-    ], style = {'width':'75%', 'text-align':'center', 'padding-left': '150px'})
+    ], style = {'width':'75%', 'text-align':'center', 'padding-left': '150px', 'color':'darkblue', 'backgroundColor':'lightblue'})
 
 @app.callback(Output(component_id="graph",component_property="figure"), 
                   [Input(component_id='values',component_property="value"),
