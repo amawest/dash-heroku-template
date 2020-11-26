@@ -1,3 +1,7 @@
+# ==================================================================================================================
+# Import Libraries
+# ==================================================================================================================
+
 import numpy as np
 import pandas as pd
 import plotly.express as px
@@ -9,9 +13,10 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 external_stylesheets = ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css']
 
-
-### Data preparation 
-#%%capture
+# ==================================================================================================================
+# Data Cleaning
+# ==================================================================================================================
+ 
 gss = pd.read_csv("https://github.com/jkropko/DS-6001/raw/master/localdata/gss2018.csv",
                  encoding='cp1252', na_values=['IAP','IAP,DK,NA,uncodeable', 'NOT SURE',
                                                'DK', 'IAP, DK, NA, uncodeable', '.a', "CAN'T CHOOSE"])
@@ -38,6 +43,10 @@ gss_clean = gss_clean.rename({'wtss':'weight',
 gss_clean.age = gss_clean.age.replace({'89 or older':'89'})
 gss_clean.age = gss_clean.age.astype('float')
 
+# ==================================================================================================================
+# Generate Information (Text, Tables) 
+# ==================================================================================================================
+
 markdown_text = '''
 The Netflix documentary, *Why Women Are Paid Less*, argues that the gender pay 
 gap can best be explained with some history: after women entered the workforce,
@@ -50,18 +59,20 @@ she is now dividing her time in two between home and work, and can not take the 
 opportunities to advance like her male counterparts. So what is called the gender 
 wage gap could more accurately be described as the mother wage gap, and women who work
 and don't have children actually make 97% what a man does today.
+
+
 The GSS is a sociology survey that's been collected since 1972 and aims to understand the sentiments of the 
 contemporary American people, aiming to get a breadth of experience based on race, income, location, sex,
 and other factors. Data is collected by UChicago and funded by the NSF, and can be found online at 
 [this website](https://gssdataexplorer.norc.org/). Since it's inception, the survey has had 59,599 respondents. 
 '''
 
-### Generate table
+### Primary Table
 table = gss_clean.groupby('sex').agg({'income': 'mean', 'job_prestige':'mean', 'socioeconomic_index':'mean', 'education':'mean'}).round(2)
 fig = ff.create_table(table)
 
 
-### Barplot
+### Figure 1
 gss_bar = gss_clean.groupby(['sex', 'male_breadwinner']).size().reset_index().rename({0:'count'}, axis=1)
 fig_1 = px.bar(gss_bar, x='male_breadwinner', y='count', color='sex',
             labels={'male_breadwinner': 'agree/disagree: male is the bread winner', 'count':'number of responses'},
@@ -70,7 +81,7 @@ fig_1 = px.bar(gss_bar, x='male_breadwinner', y='count', color='sex',
             barmode='group')
 fig_1.update_layout(showlegend=True)
 
-### Scatterplot
+### Figure 2
 fig_2 = px.scatter(gss_clean, x='job_prestige', y='income',
                  color = 'sex',
                  color_discrete_sequence=["blue", "#cf72ca"],
@@ -79,19 +90,21 @@ fig_2 = px.scatter(gss_clean, x='job_prestige', y='income',
                         'job_prestige':'occupational prestige score'},
                  hover_data=['education', 'socioeconomic_index'])
 
-### Boxplots for income and job prestige side-by-side
+### Figures 3
 fig_3 = px.box(gss_clean, x='sex', y = 'income', color = 'sex',
                color_discrete_sequence=["blue", "#cf72ca"],
                labels={'income':'personal annual income', 'sex':''})
 fig_3.update_layout(showlegend=False)
 
+
+### Figure 4
 fig_4 = px.box(gss_clean, x='sex', y = 'job_prestige', color = 'sex',
                color_discrete_sequence=["blue", "#cf72ca"],
                labels={'job_prestige':'occupational prestige score', 'sex':''})
 fig_4.update_layout(showlegend=False)
 
 
-### Boxplots
+### Figure 5
 gss_plot = gss_clean[['income', 'sex', 'job_prestige']]
 gss_plot['prestige_cat'] = pd.cut(gss_plot['job_prestige'], bins=[15.99, 26.66, 37.33, 47.99, 58.66, 69.33, 80], 
                                   labels=('level1', 'level2', 'level3', 'level4', 'level5', 'level6'))
@@ -103,13 +116,17 @@ fig_5 = px.box(gss_plot, x='sex', y = 'income', color = 'sex',
              color_discrete_sequence=["#cf72ca", "blue"])
 fig_5.update_layout(showlegend=True)
 
+# Interactive Portion
 gss_clean['education_level'] = pd.cut(gss_clean['education'], bins=[-0.01, 6, 8, 12, 16, 20], 
                                       labels=('Elementary', 'Middle School', 'High School', 'College', 'Graduate'))
 value_columns = ['satjob', 'relationship', 'male_breadwinner', 'men_bettersuited', 'child_suffer', 'men_overwork'] 
 group_columns = ['sex', 'region', 'education_level']
 gss_dropdown = gss_clean[value_columns + group_columns].dropna()
 
-### Create app
+# ==================================================================================================================
+# Create Dashboard
+# ==================================================================================================================
+
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
@@ -186,3 +203,8 @@ def make_figure(x,y):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+    
+# ==================================================================================================================
+# Finis
+# ==================================================================================================================
+
