@@ -69,8 +69,6 @@ she is now dividing her time in two between home and work, and can not take the 
 opportunities to advance like her male counterparts. So what is called the gender 
 wage gap could more accurately be described as the mother wage gap, and women who work
 and don't have children actually make 97% what a man does today.
-
-
 The GSS is a sociology survey that's been collected since 1972 and aims to understand the sentiments of the 
 contemporary American people, aiming to get a breadth of experience based on race, income, location, sex,
 and other factors. Data is collected by UChicago and funded by the NSF, and can be found online at 
@@ -78,51 +76,39 @@ and other factors. Data is collected by UChicago and funded by the NSF, and can 
 '''
 
 ### Primary Table
-table = ff.create_table(gss_bar)
-bar = gss_clean.groupby(['sex', 'male_breadwinner']).size()
-bar = bar.reset_index()
-bar = bar.rename({0:'Count'}, axis=1)
+table = gss_clean.groupby('sex').agg({'income': 'mean', 'job_prestige':'mean', 'socioeconomic_index':'mean', 'education':'mean'}).round(2)
+fig = ff.create_table(table)
 
 
 ### Figure 1
 gss_bar = gss_clean.groupby(['sex', 'male_breadwinner']).size().reset_index().rename({0:'count'}, axis=1)
-fig_1 = px.bar(bar, x='male_breadwinner', y='Count', color='sex',
-            labels={'male_breadwinner':'Preference for a Male Breadwinner', 'Count':'Count'},
+fig_1 = px.bar(gss_bar, x='male_breadwinner', y='count', color='sex',
+            labels={'male_breadwinner': 'Yay or Nay: Men Should be the Sole Bread Winners', 'count':'Number of Responses'},
             color_discrete_sequence=["#cf72ca", "blue"],
-            #hover_data = ['votes', 'Biden thermometer', 'Trump thermometer'],
-            #text='coltext',
-            barmode = 'group')
+            text='count',
+            barmode='group')
 fig_1.update_layout(showlegend=True)
-fig_1.layout.template = 'seaborn'
-fig_1.update(layout=dict(title=dict(x=0.5)))
-
 
 ### Figure 2
-fig_2 = px.scatter(gss_clean, x='job_prestige', y='income', 
-                 color = 'sex', 
-                 color_discrete_sequence=["blue", "#cf72ca", "green", "goldenrod"],
-                 trendline = 'ols',
-                 labels={'job_prestige':'Job Prestige', 
-                        'income':'Income'},
+fig_2 = px.scatter(gss_clean, x='job_prestige', y='income',
+                 color = 'sex',
+                 color_discrete_sequence=["blue", "#cf72ca"],
+                 trendline='ols',
+                 labels={'income':'annual income', 
+                        'job_prestige':'occupational prestige score'},
                  hover_data=['education', 'socioeconomic_index'])
-fig_2.layout.template = 'seaborn'
-fig_2.update(layout=dict(title=dict(x=0.5)))
-
 
 ### Figures 3
 fig_3 = px.box(gss_clean, x='sex', y = 'income', color = 'sex',
-               color_discrete_sequence=["blue", "#cf72ca", "green", "goldenrod"],
-               labels={'sex':'Gender', 'income':'Income'})
-fig_3.update(layout=dict(title=dict(x=0.5)))
-fig_3.layout.template = 'seaborn'
+               color_discrete_sequence=["blue", "#cf72ca"],
+               labels={'income':'personal annual income', 'sex':''})
 fig_3.update_layout(showlegend=False)
+
 
 ### Figure 4
 fig_4 = px.box(gss_clean, x='sex', y = 'job_prestige', color = 'sex',
-               color_discrete_sequence=["blue", "#cf72ca", "green", "goldenrod"],
-               labels={'job_prestige':'Job Prestige', 'sex':''})
-fig_4.update(layout=dict(title=dict(x=0.5)))
-fig_4.layout.template = 'seaborn'
+               color_discrete_sequence=["blue", "#cf72ca"],
+               labels={'job_prestige':'occupational prestige score', 'sex':''})
 fig_4.update_layout(showlegend=False)
 
 
@@ -132,20 +118,18 @@ gss_plot['prestige_cat'] = pd.cut(gss_plot['job_prestige'], bins=[15.50, 26.50, 
                                   labels=('level1', 'level2', 'level3', 'level4', 'level5', 'level6'))
 gss_plot = gss_plot.dropna()
 
-fig_5 = px.box(gss_small, x='sex', y = 'income', color = 'sex',
-             facet_col='job_prestige', facet_col_wrap=2,    
-             color_discrete_sequence=["#cf72ca", "blue", "green", "goldenrod"],
-             labels={'income':'Income', 'sex':'Gender'})
-fig_5.update(layout=dict(title=dict(x=0.5)))
-fig_5.layout.template = 'seaborn'
-fig_5.update_layout(showlegend=False)
+fig_5 = px.box(gss_plot, x='sex', y = 'income', color = 'sex', 
+             facet_col='prestige_cat', facet_col_wrap = 2,
+             labels={'prestige_cat':'occupational prestige Level', 'income':'annual income', 'sex':''},
+             color_discrete_sequence=["#cf72ca", "blue"])
+fig_5.update_layout(showlegend=True)
 
 ### Interactive Portion
 gss_clean['education_level'] = pd.cut(gss_clean['education'], bins=[-0.50, 6, 8, 12, 16, 20], 
                                       labels=('Elementary', 'Middle School', 'High School', 'College', 'Graduate'))
-y_axis = ['satjob', 'relationship', 'male_breadwinner', 'men_bettersuited', 'child_suffer', 'men_overwork'] 
-x_axis = ['sex', 'region', 'education_level']
-gss_dropdown = gss_clean[y_axis + x_axis].dropna()
+value_columns = ['satjob', 'relationship', 'male_breadwinner', 'men_bettersuited', 'child_suffer', 'men_overwork'] 
+group_columns = ['sex', 'region', 'education_level']
+gss_dropdown = gss_clean[value_columns + group_columns].dropna()
 
 # ==================================================================================================================
 # Create Dashboard
@@ -191,14 +175,14 @@ app.layout = html.Div(
         html.H4("Interactive Barplot"),
         
         html.Div([
-            html.H3("Dependent Variable"),
+            html.H3("y-axis features"),
             dcc.Dropdown(id='values',
-                         options=[{'label': i, 'value': i} for i in y_axis],
+                         options=[{'label': i, 'value': i} for i in value_columns],
                          value='satjob'),
 
-            html.H3("Independent Variable"),
+            html.H3("x-axis features"),
             dcc.Dropdown(id='groups',
-                         options=[{'label': i, 'value': i} for i in x_axis],
+                         options=[{'label': i, 'value': i} for i in group_columns],
                          value='sex')
         ], style={'width': '25%', 'float': 'right'}),
         
@@ -206,11 +190,7 @@ app.layout = html.Div(
             dcc.Graph(id="graph")
         ], style={'width': '70%', 'float': 'left'}),
         
-        ], style = {'font-family':'Arial',
-                'width':'75%',
-                'text-align':'center',
-                'padding-left': '150px', 
-                'color': '#2f3136'})
+    ], style = {'font-family':'Arial', 'width':'75%', 'text-align':'center', 'padding-left': '150px', 'color':'#2f3136'})
 
 @app.callback(Output(component_id="graph",component_property="figure"), 
                   [Input(component_id='values',component_property="value"),
@@ -236,4 +216,3 @@ if __name__ == '__main__':
 # ==================================================================================================================
 # Finis
 # ==================================================================================================================
-
