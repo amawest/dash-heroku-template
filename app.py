@@ -69,6 +69,8 @@ she is now dividing her time in two between home and work, and can not take the 
 opportunities to advance like her male counterparts. So what is called the gender 
 wage gap could more accurately be described as the mother wage gap, and women who work
 and don't have children actually make 97% what a man does today.
+
+
 The GSS is a sociology survey that's been collected since 1972 and aims to understand the sentiments of the 
 contemporary American people, aiming to get a breadth of experience based on race, income, location, sex,
 and other factors. Data is collected by UChicago and funded by the NSF, and can be found online at 
@@ -175,12 +177,12 @@ app.layout = html.Div(
         html.H4("Interactive Barplot"),
         
         html.Div([
-            html.H3("y-axis features"),
+            html.H3("Dependent Variable"),
             dcc.Dropdown(id='values',
                          options=[{'label': i, 'value': i} for i in value_columns],
                          value='satjob'),
 
-            html.H3("x-axis features"),
+            html.H3("Independent Variable"),
             dcc.Dropdown(id='groups',
                          options=[{'label': i, 'value': i} for i in group_columns],
                          value='sex')
