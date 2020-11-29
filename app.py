@@ -177,12 +177,12 @@ app.layout = html.Div(
         html.H4("Interactive Barplot"),
         
         html.Div([
-            html.H3("Dependent Variable"),
+            html.H3("Count Variable"),
             dcc.Dropdown(id='values',
                          options=[{'label': i, 'value': i} for i in value_columns],
                          value='satjob'),
 
-            html.H3("Independent Variable"),
+            html.H3("Broken Up By"),
             dcc.Dropdown(id='groups',
                          options=[{'label': i, 'value': i} for i in group_columns],
                          value='sex')
@@ -205,7 +205,7 @@ def make_figure(x,y):
         x=x,
         y='count',
         color=y,
-        color_discrete_sequence=["#cf72ca", "blue"],
+        color_discrete_sequence=["#cf72ca", "blue", "green", "orange", "grey"],
         text='count',
         barmode='group'
 )
