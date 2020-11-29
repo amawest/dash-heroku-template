@@ -1,3 +1,5 @@
+# Homework assignment for Practice & Applications under Professor Jonathon Kropko at UVA.
+# Worked with lab group to complete, then re-edited with Haizhu Hong to get successfully deployed to Heroku.
 # ==================================================================================================================
 # Import Libraries
 # ==================================================================================================================
@@ -111,7 +113,7 @@ fig_4.update_layout(showlegend=False)
 
 ### Figure 5
 gss_plot = gss_clean[['income', 'sex', 'job_prestige']]
-gss_plot['prestige_cat'] = pd.cut(gss_plot['job_prestige'], bins=[15.99, 26.66, 37.33, 47.99, 58.66, 69.33, 80], 
+gss_plot['prestige_cat'] = pd.cut(gss_plot['job_prestige'], bins=[15.50, 26.50, 37.50, 47.50, 58.50, 69.50, 80], 
                                   labels=('level1', 'level2', 'level3', 'level4', 'level5', 'level6'))
 gss_plot = gss_plot.dropna()
 
@@ -122,7 +124,7 @@ fig_5 = px.box(gss_plot, x='sex', y = 'income', color = 'sex',
 fig_5.update_layout(showlegend=True)
 
 ### Interactive Portion
-gss_clean['education_level'] = pd.cut(gss_clean['education'], bins=[-0.01, 6, 8, 12, 16, 20], 
+gss_clean['education_level'] = pd.cut(gss_clean['education'], bins=[-0.50, 6, 8, 12, 16, 20], 
                                       labels=('Elementary', 'Middle School', 'High School', 'College', 'Graduate'))
 value_columns = ['satjob', 'relationship', 'male_breadwinner', 'men_bettersuited', 'child_suffer', 'men_overwork'] 
 group_columns = ['sex', 'region', 'education_level']
